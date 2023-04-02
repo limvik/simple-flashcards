@@ -1,5 +1,5 @@
 package com.limvik.flashcards;
 
-public class card {
+public class Card {
     
 }

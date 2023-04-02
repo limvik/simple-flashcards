@@ -1,5 +1,5 @@
 package com.limvik.flashcards;
 
-public class user {
+public class Deck {
     
 }
