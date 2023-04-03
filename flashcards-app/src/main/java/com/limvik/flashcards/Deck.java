@@ -4,6 +4,12 @@ import java.util.List;
 
 public class Deck {
 
+    private int id; // 보관함 식별자
+    private String name;
+    private int parentId; // 부모 보관함 식별자
+    private List<Integer> childIds; // 자식 보관함 식별자 목록
+    private List<Integer> cardIds; // 포함한 카드 식별자 목록
+
     // 보관함을 관리하라(생성)
     public Deck(String deckName) { }
     
@@ -23,5 +29,8 @@ public class Deck {
     
     // 이름을 기록하라
     public boolean modifyDeckName(int deckId, String newDeckName) { }
+
+    // 보관함 목록을 찾아라
+    public List<Deck> getDeckList() { }
 
 }
