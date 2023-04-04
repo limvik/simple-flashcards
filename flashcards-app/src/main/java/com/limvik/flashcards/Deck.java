@@ -11,7 +11,7 @@ public class Deck {
     private List<Integer> cardIds; // 포함한 카드 식별자 목록
 
     // 보관함을 관리하라(생성)
-    public Deck(String deckName) { }
+    public Deck(String name) { }
     
     // 보관함을 관리하라(수정)
     public boolean changeParentDeck() { }
@@ -28,7 +28,9 @@ public class Deck {
     public List<Card> findCards(List<Integer> cardIdList) { }
     
     // 이름을 기록하라
-    public boolean modifyDeckName(int deckId, String newDeckName) { }
+    public boolean modifyDeckName(int deckId, String name) {
+        // 데이터베이스 수정
+    }
 
     // 보관함 목록을 찾아라
     public List<Deck> getDeckList() { }

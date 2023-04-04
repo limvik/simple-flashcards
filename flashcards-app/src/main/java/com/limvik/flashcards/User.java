@@ -3,10 +3,10 @@ package com.limvik.flashcards;
 public class User {
 
     // 학습하라
-    public User(Board board) {
+    public User(Board board, Deck deck, Planner planner) {
         
         // 보관함 목록 및 보관함 별 학습 대상 카드 개수 확인하기
-        board.showBoard();
+        board.showBoard(deck, planner);
 
     }
 
