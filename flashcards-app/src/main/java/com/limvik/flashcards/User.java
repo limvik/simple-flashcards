@@ -2,12 +2,24 @@ package com.limvik.flashcards;
 
 public class User {
 
-    // 학습하라
-    public User(Board board, Deck deck, Planner planner) {
-        
-        // 보관함 목록 및 보관함 별 학습 대상 카드 개수 확인하기
-        board.showBoard(deck, planner);
+    private int id; // 사용자 식별자
+    private String name; // 사용자 이름
 
+    // 사용자 객체 초기화
+    public User(int id, String name) {
+        
+        // 사용자 정보 설정
+        this.id = id;
+        this.name = name;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
