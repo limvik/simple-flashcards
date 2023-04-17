@@ -11,7 +11,7 @@ public class DatabaseConnection {
 
     private DatabaseConnection() throws SQLException {
         String dbPath = Paths.get("src", "main", "resources", "db", "flashcards.db").toString();
-        this.connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+        connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
     }
 
     public static DatabaseConnection getInstance() throws SQLException {
