@@ -1,7 +1,10 @@
 package com.limvik.flashcards;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.limvik.dao.UserDAO;
 
 public class Board {
 
@@ -13,9 +16,18 @@ public class Board {
     public void showUserList() {
 
         // 사용자 목록 불러오기
-        users = /* 데이터베이스 호출 */;
+        try {
+            users = new UserDAO().getAllUsers();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
 
-        // 사용자 목록 시현하기
+        // 사용자가 없을 경우
+        if (users.size() == 0) {
+            // 새로운 사용자 생성 화면 시현
+        } else {
+            // 사용자 목록 선택 화면 시현
+        }
 
     }
 
