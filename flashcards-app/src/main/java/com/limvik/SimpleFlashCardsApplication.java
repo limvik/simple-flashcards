@@ -1,8 +1,5 @@
 package com.limvik;
 
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
 import com.limvik.controller.InputController;
 import com.limvik.enums.MainMenu;
 import com.limvik.flashcards.Board;
@@ -48,7 +45,7 @@ public class SimpleFlashCardsApplication
     private static MainMenu getSelectedMainMenu(View view) {
 
         int menu = InputController.getMenuInput(view, MainMenu.getMenuRegex());
-
+        
         // 메뉴 탐색
         MainMenu mainMenu = MainMenu.EXIT;
         for (MainMenu m : MainMenu.values()) {

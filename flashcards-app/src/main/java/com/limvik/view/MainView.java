@@ -28,7 +28,7 @@ public class MainView implements View {
 
         int menuNumber = 1;
 
-        for (MainMenu mainMenu : MainMenu.getMainMenu()) {
+        for (MainMenu mainMenu : MainMenu.values()) {
             System.out.println(menuNumber + ". " + mainMenu.getDescription());
             ++menuNumber;
         }
