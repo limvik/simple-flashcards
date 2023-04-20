@@ -7,7 +7,7 @@ public class MainView implements View {
     private static final String WELCOME = "Welcome to Limvik's Flashcards";
     private static final String LOADING = "loading...";
     private static final String MENU_GUIDE = "위 메뉴 중 하나를 입력 후 엔터 키를 눌러주세요. 예) 1\n>";
-    private static final String ERROR = "정확한 메뉴 번호를 입력하세요. 예) 1";
+    private static final String ERROR = "정확한 메뉴 번호를 입력하세요. 예) 1\n>";
 
     // 프로그램 시작 인사
     @Override
@@ -40,7 +40,6 @@ public class MainView implements View {
     @Override
     public void printError() {
         System.out.println(ERROR);
-        System.out.print(">");
     }
 
 }
