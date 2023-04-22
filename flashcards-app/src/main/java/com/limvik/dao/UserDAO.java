@@ -37,6 +37,26 @@ public class UserDAO {
         return users;
     }
 
+    public int getUserSize() {
+
+        // 사용자 수를 조회하기 위한 SQL
+        String sql = "SELECT COUNT(*) AS user_size FROM Users";
+
+        // SQL 실행 및 데이터 저장
+        int userSize = 0;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                userSize = resultSet.getInt("user_size");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userSize;
+    }
+
     public int insertUser(User user) {
 
         // 신규 사용자 추가를 위한 SQL

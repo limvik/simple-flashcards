@@ -69,6 +69,9 @@ public class UserDataCRUDTest {
             assertEquals(names[i], users.get(i).getName(), "Should be " + names[i]);
         }
 
+        int userSize = userDAO.getUserSize();
+        assertEquals(userIds.length, userSize, "Should be " + userIds.length);
+
     }
 
     @Test
