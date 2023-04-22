@@ -100,12 +100,16 @@ public class Board {
                         UserSelectionView.printNoUsers();
                         View.pause(2);
                     } else {
-                        UserSelectionMenu userSelectionMenu = 
-                        (UserSelectionMenu) InputController.getMenuInput(view, UserSelectionMenu.values());
+                        // 메뉴 및 사용자 목록 출력
+                        printMenu(view);
                         int menuLength = UserSelectionMenu.values().length;
                         for (int i = 0; i < users.size(); i++) {
-                            System.out.println(i + menuLength + ". " + users.get(i).getName());
-                        } 
+                            System.out.println(i + menuLength + 1 + ". " + users.get(i).getName());
+                        }
+                        System.out.print(UserSelectionView.MENU_GUIDE);
+
+                        UserSelectionMenu userSelectionMenu = 
+                        (UserSelectionMenu) InputController.getMenuInput(view, UserSelectionMenu.values());
                         
                         // 메뉴를 선택한 경우
                         if (userSelectionMenu == UserSelectionMenu.EXIT) {
@@ -113,6 +117,7 @@ public class Board {
                         }
 
                         // 사용자를 선택한 경우
+                        
 
                         // 화면 이동 메시지 출력
                         view.printLoading();
