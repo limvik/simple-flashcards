@@ -50,4 +50,15 @@ public class InputController {
         return menus[menuNum - 1];
     }
 
+    public static String getUserNameInput () {
+        
+        // 입력 및 유효성 검사
+        Scanner scanner = getInstance().getScanner();
+        // 입력받은 이름 저장
+        String name = scanner.nextLine();
+        if (name.length() > 70) name = name.substring(0, 70);
+        if (name.length() == 0) name = "Anonymous";
+
+        return name;
+    }
 }

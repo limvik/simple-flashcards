@@ -1,0 +1,38 @@
+package com.limvik.view;
+
+import com.limvik.enums.UserMenu;
+
+public class UserMenuView implements View {
+
+    private static final String WELCOME = "사용자 메뉴 입니다. 원하시는 메뉴를 선택해주세요.";
+    private static final String MENU_GUIDE = "위 메뉴 중 하나를 입력 후 엔터 키를 눌러주세요. 예) 1\n>";
+    private static final String ERROR = "정확한 메뉴 번호를 입력하세요. 예) 1\n>";
+
+    @Override
+    public void printFirstMessage() {
+        System.out.println(WELCOME);
+    }
+
+    @Override
+    public void printLoading() {
+        
+    }
+
+    @Override
+    public void printMenu() {
+        int menuNumber = 1;
+
+        for (UserMenu userMenu : UserMenu.values()) {
+            System.out.println(menuNumber + ". " + userMenu.getDescription());
+            ++menuNumber;
+        }
+
+        System.out.print(MENU_GUIDE);
+    }
+
+    @Override
+    public void printError() {
+        System.out.println(ERROR);
+    }
+    
+}
