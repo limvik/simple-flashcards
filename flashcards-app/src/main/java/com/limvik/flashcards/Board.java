@@ -42,7 +42,8 @@ public class Board {
             printMenu(view);
     
             UserMenu userMenu = (UserMenu) InputController.getMenuInput(view, UserMenu.values());
-            
+            view.printLoading();
+            View.pause(1);
             switch (userMenu) {
                 case CREATE:
                     // 이전 화면 메시지 지우기
@@ -72,6 +73,7 @@ public class Board {
                         var newUser = new User(users.get(users.size() - 1).getId() + 1, name);
                         view.printLoading();
                         View.pause(1);
+
                         if (userDAO.insertUser(newUser) == 1) {
                             users.add(newUser);
                             System.out.print("'"+newUser.getName()+"'");
@@ -82,7 +84,7 @@ public class Board {
                             System.out.println(CreateUserView.FAILED);
                             view.printError();
                         }
-                    }
+                    } // end while
                     break;
                 case LIST:
                     // 사용자 목록 출력

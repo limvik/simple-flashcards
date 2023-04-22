@@ -7,6 +7,7 @@ public class UserMenuView implements View {
     private static final String WELCOME = "사용자 메뉴 입니다. 원하시는 메뉴를 선택해주세요.";
     private static final String MENU_GUIDE = "위 메뉴 중 하나를 입력 후 엔터 키를 눌러주세요. 예) 1\n>";
     private static final String ERROR = "정확한 메뉴 번호를 입력하세요. 예) 1\n>";
+    private static final String LOADING = "선택하신 화면으로 이동합니다.";
 
     @Override
     public void printFirstMessage() {
@@ -15,7 +16,7 @@ public class UserMenuView implements View {
 
     @Override
     public void printLoading() {
-        
+        System.out.println(LOADING);
     }
 
     @Override
