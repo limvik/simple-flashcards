@@ -7,8 +7,8 @@ import java.util.List;
 import com.limvik.controller.InputController;
 import com.limvik.dao.DatabaseConnection;
 import com.limvik.dao.UserDAO;
-import com.limvik.enums.Menu;
 import com.limvik.enums.UserMenu;
+import com.limvik.enums.UserSelectionMenu;
 import com.limvik.view.CreateUserView;
 import com.limvik.view.UserMenuView;
 import com.limvik.view.UserSelectionView;
@@ -87,19 +87,50 @@ public class Board {
                     } // end while
                     break;
                 case LIST:
-                    // 사용자 목록 출력
+                    // 이전 화면 메시지 지우기
+                    View.clearScreen();
                     
+                    // 사용자 목록 출력
+                    view = new UserSelectionView();
+                    if (users.size() == 0) {
+                        UserSelectionView.printNoUsers();
+                        View.pause(2);
+                    } else {
+                        UserSelectionMenu userSelectionMenu = 
+                        (UserSelectionMenu) InputController.getMenuInput(view, UserSelectionMenu.values());
+                        int menuLength = UserSelectionMenu.values().length;
+                        for (int i = 0; i < users.size(); i++) {
+                            System.out.println(i + menuLength + ". " + users.get(i).getName());
+                        } 
+                        
+                        // 메뉴를 선택한 경우
+                        if (userSelectionMenu == UserSelectionMenu.EXIT) {
+                            exit();
+                        }
+
+                        // 사용자를 선택한 경우
+
+                        // 화면 이동 메시지 출력
+                        view.printLoading();
+                        View.pause(2);
+                    }
+                    break;
                 case EXIT:
-                    InputController.getInstance().closeScanner();
-                    System.exit(0);
-            }
-        }
+                    exit();
+
+            } // end switch (userMenu)
+        } // end while
 
     }
 
     private void printMenu(View view) {
         view.printFirstMessage();
         view.printMenu();
+    }
+
+    private void exit() {
+        InputController.getInstance().closeScanner();
+        System.exit(0);
     }
 
     // 보관함 목록 및 보관함 별 학습 대상 카드 갯수를 보여라
