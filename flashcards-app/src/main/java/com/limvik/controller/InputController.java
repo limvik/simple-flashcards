@@ -3,6 +3,7 @@ package com.limvik.controller;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import com.limvik.enums.Menu;
 import com.limvik.view.View;
 
 public class InputController {
@@ -28,10 +29,10 @@ public class InputController {
         scanner.close();
     }
 
-    public static int getMenuInput (View view, String regex) {
+    public static Menu getMenuInput (View view, Menu[] menus) {
 
         // 유효성 검사용 정규표현식 설정
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(menus[0].getMenuRegex());
         // 입력 및 유효성 검사
         Scanner scanner = getInstance().getScanner();
         while (!scanner.hasNext(pattern)) {
@@ -42,10 +43,11 @@ public class InputController {
         }
         
         // 입력받은 메뉴 번호 저장
-        int menu = scanner.nextInt();
+        int menuNum = scanner.nextInt();
         // 개행문자 제거
         scanner.nextLine();
 
-        return menu;
+        return menus[menuNum - 1];
     }
+
 }

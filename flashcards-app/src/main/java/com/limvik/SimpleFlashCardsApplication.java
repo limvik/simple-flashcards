@@ -19,14 +19,16 @@ public class SimpleFlashCardsApplication
         MainMenu mainMenu = getSelectedMainMenu(view);
         switch (mainMenu) {
             case START:
-                // 사용자 목록 출력
+                // 사용자 메뉴 출력
                 Board board = new Board();
                 loadingUserList(view, board);
                 break;
             case EXIT:
                 InputController.getInstance().closeScanner();
                 System.exit(0);
-        }      
+        }
+
+
     }
 
     private static void printMainMenu(View view) {
@@ -43,25 +45,19 @@ public class SimpleFlashCardsApplication
     }
 
     private static MainMenu getSelectedMainMenu(View view) {
-
-        int menu = InputController.getMenuInput(view, MainMenu.getMenuRegex());
-        
-        // 메뉴 탐색
-        MainMenu mainMenu = MainMenu.EXIT;
-        for (MainMenu m : MainMenu.values()) {
-            if (m.ordinal() + 1 == menu) {
-                mainMenu = m;
-                break;
-            }
-        }
-
-        return mainMenu;
+        return (MainMenu) InputController.getMenuInput(view, MainMenu.values());
     }
 
     private static void loadingUserList(View view, Board board) {
+
+        // 화면 청소
+        View.clearScreen();
+
         // 로딩 메시지 출력
         view.printLoading();
-        // 사용자 목록 출력
+
+        // 사용자 메뉴 출력
         board.showUserList();
+        
     }
 }

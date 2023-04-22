@@ -39,7 +39,7 @@ public class MainView implements View {
 
     @Override
     public void printError() {
-        System.out.println(ERROR);
+        System.out.print(ERROR);
     }
 
 }
