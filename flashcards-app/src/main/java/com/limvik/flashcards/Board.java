@@ -70,7 +70,11 @@ public class Board {
                         if (isDuplicate) continue;
 
                         // 사용자 데이터베이스에 저장
-                        var newUser = new User(users.get(users.size() - 1).getId() + 1, name);
+                        int lastUserId = 0;
+                        if (users.size() > 0) {
+                            lastUserId = users.get(users.size() - 1).getId();
+                        }
+                        var newUser = new User(lastUserId + 1, name);
                         view.printLoading();
                         View.pause(1);
 
