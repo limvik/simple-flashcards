@@ -10,9 +10,9 @@ import com.limvik.enums.SelectedUserMenu;
 import com.limvik.flashcards.Board;
 import com.limvik.flashcards.User;
 import com.limvik.view.MainView;
-import com.limvik.view.SelectedUserView;
-import com.limvik.view.UpdateUserView;
 import com.limvik.view.View;
+import com.limvik.view.user.SelectedUserView;
+import com.limvik.view.user.UpdateUserView;
 
 public class SimpleFlashCardsApplication 
 {

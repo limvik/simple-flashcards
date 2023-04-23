@@ -1,6 +1,7 @@
-package com.limvik.view;
+package com.limvik.view.user;
 
 import com.limvik.enums.UserSelectionMenu;
+import com.limvik.view.View;
 
 public class UserSelectionView implements View {
 
