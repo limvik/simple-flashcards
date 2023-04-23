@@ -5,13 +5,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.sqlite.SQLiteConfig;
+
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
 
     private DatabaseConnection() throws SQLException {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
         String dbPath = Paths.get("src", "main", "resources", "db", "flashcards.db").toString();
-        connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+        connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath, config.toProperties());
     }
 
     public static DatabaseConnection getInstance() throws SQLException {
