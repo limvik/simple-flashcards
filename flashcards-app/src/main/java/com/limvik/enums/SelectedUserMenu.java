@@ -3,7 +3,7 @@ package com.limvik.enums;
 public enum SelectedUserMenu implements Menu {
     
     BEFORE("이전 메뉴로 돌아가기"),
-    STUDY("학습 목록 확인하기"),
+    STUDY("학습 보관함 불러오기"),
     UPDATE("사용자 이름 수정하기"),
     DELETE("사용자 삭제하기"),
     EXIT("종료");
