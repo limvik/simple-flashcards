@@ -3,6 +3,7 @@ package com.limvik;
 import com.limvik.controller.InputController;
 import com.limvik.enums.MainMenu;
 import com.limvik.flashcards.Board;
+import com.limvik.flashcards.User;
 import com.limvik.view.MainView;
 import com.limvik.view.View;
 
@@ -21,7 +22,7 @@ public class SimpleFlashCardsApplication
             case START:
                 // 사용자 메뉴 출력
                 Board board = new Board();
-                loadingUserList(view, board);
+                User user = loadingUserList(view, board);
                 break;
             case EXIT:
                 InputController.getInstance().closeScanner();
@@ -48,7 +49,7 @@ public class SimpleFlashCardsApplication
         return (MainMenu) InputController.getMenuInput(view, MainMenu.values());
     }
 
-    private static void loadingUserList(View view, Board board) {
+    private static User loadingUserList(View view, Board board) {
 
         // 화면 청소
         View.clearScreen();
@@ -57,7 +58,7 @@ public class SimpleFlashCardsApplication
         view.printLoading();
 
         // 사용자 메뉴 출력
-        board.showUserList();
+        return board.showUserList();
         
     }
 }

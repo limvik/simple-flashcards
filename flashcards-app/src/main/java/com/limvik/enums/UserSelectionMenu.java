@@ -1,37 +1,46 @@
 package com.limvik.enums;
 
-import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import com.limvik.dao.DatabaseConnection;
-import com.limvik.dao.UserDAO;
-
-public enum UserSelectionMenu implements Menu {
+public class UserSelectionMenu implements Menu {
     
-    BEFORE("이전 메뉴로 돌아가기"),
-    EXIT("종료");
+    private static final Map<String, UserSelectionMenu> VALUES = new LinkedHashMap<>();
+    public static final String BEFORE = "이전 메뉴로 돌아가기";
+    public static final String EXIT = "종료";
 
-    private final String description;
+    private final String name;
 
-    UserSelectionMenu(String description) {
-        this.description = description;
+    private UserSelectionMenu(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public static void create(String name) {
+        UserSelectionMenu newMenu = new UserSelectionMenu(name);
+        VALUES.put(name, newMenu);
+    } 
+
+    public static UserSelectionMenu[] values() {
+        return VALUES.values().toArray(new UserSelectionMenu[0]);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static void clearUserList() {
+        VALUES.clear();
+        setDefaultMenus();
+    }
+
+    private static void setDefaultMenus() {
+        VALUES.put(BEFORE, new UserSelectionMenu(BEFORE));
+        VALUES.put(EXIT, new UserSelectionMenu(EXIT));
     }
 
     // 선택된 메인 메뉴 유효성 검사용 정규표현식 반환
     @Override
-    public String getMenuRegex() {
-        UserDAO userDAO = null;
-        int userNumber = 0;
-        try {
-            userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
-            userNumber = userDAO.getUserSize();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        
-        return "[1-" + UserMenu.values().length + userNumber + "]";
+    public String getMenuRegex() {        
+        return "[1-" + UserSelectionMenu.values().length + "]";
     }
 }

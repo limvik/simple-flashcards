@@ -57,7 +57,7 @@ public class InputController {
         // 입력받은 이름 저장
         String name = scanner.nextLine();
         if (name.length() > 70) name = name.substring(0, 70);
-        if (name.length() == 0) name = "Anonymous";
+        else if (name.length() == 0) name = "Anonymous";
 
         return name;
     }
