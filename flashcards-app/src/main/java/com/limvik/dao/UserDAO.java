@@ -57,6 +57,24 @@ public class UserDAO {
         return userSize;
     }
 
+    public boolean isDuplicatedName (String name) {
+
+        // 사용자 이름이 존재하는지 확인하기 위한 SQL
+        String sql = "SELECT name FROM Users WHERE name = ?";
+
+        // SQL 실행
+        boolean isDuplicate = false;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            isDuplicate = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isDuplicate;
+    }
+
     public int insertUser(User user) {
 
         // 신규 사용자 추가를 위한 SQL

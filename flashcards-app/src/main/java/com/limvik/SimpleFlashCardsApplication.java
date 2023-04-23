@@ -11,6 +11,7 @@ import com.limvik.flashcards.Board;
 import com.limvik.flashcards.User;
 import com.limvik.view.MainView;
 import com.limvik.view.SelectedUserView;
+import com.limvik.view.UpdateUserView;
 import com.limvik.view.View;
 
 public class SimpleFlashCardsApplication 
@@ -39,18 +40,56 @@ public class SimpleFlashCardsApplication
                         case STUDY:
                             break;
                         case UPDATE:
+                            View.clearScreen();
+                            var updateUserView = new UpdateUserView();
+                            updateUserView.printFirstMessage();
+                            updateUserView.printMenu();
+
+                            String newName = InputController.getUserNameInput();
+                            // 중복 검사
+                            try {
+                                var userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
+                                if (userDAO.isDuplicatedName(newName)) throw new SQLException();
+                            } catch (SQLException e) {
+                                System.err.println(e.getMessage());
+                                System.out.print(UpdateUserView.DUPLICATE); 
+                                updateUserView.printError();
+                                View.pause(1);
+                                break;
+                            }
+
+                            // 사용자 수정
+                            user.setName(newName);
+                            int updatedRow = 0;
+                            try {
+                                var userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
+                                updatedRow = userDAO.updateUser(user);
+                                if (updatedRow == 0) throw new SQLException();
+                            } catch (SQLException e) {
+                                System.err.println(e.getMessage());
+                                updateUserView.printError();
+                                View.pause(1);
+                                break;
+                            }
+
+                            updateUserView.printLoading();
+                            View.pause(1);
+                            updateUserView.returnToMenu();
+                            View.pause(1);
                             break;
                         case DELETE:
                             System.out.print("'" + user.getName() + "'");
                             System.out.println("님의 정보를 정말 삭제하시겠습니까? 모든 보관함과 카드도 함께 삭제됩니다.");
                             System.out.print("삭제를 원하시면 Y, 취소하려면 N을 입력 후 엔터를 눌러주세요.\n>");
+
                             boolean isDelete = InputController.isYesOrNo();
+
                             if (isDelete) {
-                                int row = 0;
+                                int deletedRow = 0;
                                 try {
                                     var userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
-                                    row = userDAO.deleteUser(user.getId());
-                                    if (row == 0) throw new SQLException();
+                                    deletedRow = userDAO.deleteUser(user.getId());
+                                    if (deletedRow == 0) throw new SQLException();
                                 } catch (SQLException e) {
                                     System.err.println(e.getMessage());
                                     System.out.println("삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
@@ -68,8 +107,8 @@ public class SimpleFlashCardsApplication
                         case EXIT:
                             exit();
                             break;
-                    }
-                }
+                    } // end switch SelectedUserMenu
+                } // end while
             case EXIT:
                 exit();
                 break;
