@@ -61,4 +61,14 @@ public class InputController {
 
         return name;
     }
+
+    public static boolean isYesOrNo() {
+        Scanner scanner = getInstance().getScanner();
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("n")) {
+                return input.equalsIgnoreCase("y");
+            }
+        }
+    }
 }

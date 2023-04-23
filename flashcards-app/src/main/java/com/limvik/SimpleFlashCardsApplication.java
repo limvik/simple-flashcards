@@ -1,6 +1,10 @@
 package com.limvik;
 
+import java.sql.SQLException;
+
 import com.limvik.controller.InputController;
+import com.limvik.dao.DatabaseConnection;
+import com.limvik.dao.UserDAO;
 import com.limvik.enums.MainMenu;
 import com.limvik.enums.SelectedUserMenu;
 import com.limvik.flashcards.Board;
@@ -25,10 +29,50 @@ public class SimpleFlashCardsApplication
                 // 사용자 메뉴 출력
                 Board board = new Board();
                 User user = getSelectedUser(mainView, board);
-                var selectedUserMenu = getSelectedUserMenu(mainView, user);
-                break;
+                while (true) {
+                    // 선택된 사용자 메뉴 출력
+                    var selectedUserMenu = getSelectedUserMenu(mainView, user);
+                    switch (selectedUserMenu) {
+                        case BEFORE:
+                            user = getSelectedUser(mainView, board);
+                            break;
+                        case STUDY:
+                            break;
+                        case UPDATE:
+                            break;
+                        case DELETE:
+                            System.out.print("'" + user.getName() + "'");
+                            System.out.println("님의 정보를 정말 삭제하시겠습니까? 모든 보관함과 카드도 함께 삭제됩니다.");
+                            System.out.print("삭제를 원하시면 Y, 취소하려면 N을 입력 후 엔터를 눌러주세요.\n>");
+                            boolean isDelete = InputController.isYesOrNo();
+                            if (isDelete) {
+                                int row = 0;
+                                try {
+                                    var userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
+                                    row = userDAO.deleteUser(user.getId());
+                                    if (row == 0) throw new SQLException();
+                                } catch (SQLException e) {
+                                    System.err.println(e.getMessage());
+                                    System.out.println("삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+                                    View.pause(1);
+                                    break;
+                                }
+                                System.out.println("삭제가 완료되었습니다. 사용자 메뉴로 이동합니다.");
+                                View.pause(1);
+                                user = getSelectedUser(mainView, board);
+                            } else {
+                                System.out.println("삭제가 취소되었습니다.");
+                                View.pause(1);
+                            }
+                            break;
+                        case EXIT:
+                            exit();
+                            break;
+                    }
+                }
             case EXIT:
                 exit();
+                break;
         }
 
 
@@ -85,9 +129,9 @@ public class SimpleFlashCardsApplication
         selectedUserView.printMenu();
 
         var selectedUserMenu = (SelectedUserMenu) InputController.getMenuInput(selectedUserView, SelectedUserMenu.values());
-
-        if(selectedUserMenu == SelectedUserMenu.EXIT) exit();
-
+        selectedUserView.printLoading();
+        View.pause(1);
+        View.clearScreen();
         return selectedUserMenu;
     }
 
