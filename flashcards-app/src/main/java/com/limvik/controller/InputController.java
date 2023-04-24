@@ -50,16 +50,17 @@ public class InputController {
         return menus[menuNum - 1];
     }
 
-    public static String getUserNameInput () {
+    public static String getUserTextInput () {
         
-        // 입력 및 유효성 검사
+        // 입력
         Scanner scanner = getInstance().getScanner();
-        // 입력받은 이름 저장
-        String name = scanner.nextLine();
-        if (name.length() > 70) name = name.substring(0, 70);
-        else if (name.length() == 0) name = "Anonymous";
+        // 입력받은 텍스트 저장
+        String text = scanner.nextLine();
+        if (text.length() > 70) text = text.substring(0, 70);
+        else if (text.length() == 0) text = "Nothing:" + Math.random();
 
-        return name;
+        return text;
+        
     }
 
     public static boolean isYesOrNo() {
