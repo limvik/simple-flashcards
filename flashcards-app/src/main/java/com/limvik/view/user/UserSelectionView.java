@@ -35,7 +35,7 @@ public class UserSelectionView implements View {
 
     @Override
     public void printError() {
-        System.out.println(ERROR);
+        System.out.print(ERROR);
     }
 
     public static void printNoUsers() {

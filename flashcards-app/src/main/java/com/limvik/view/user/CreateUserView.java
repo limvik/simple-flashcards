@@ -34,7 +34,7 @@ public class CreateUserView implements View {
         System.out.print(ERORR);
     }
 
-    public static void returnToMenu() {
+    public void returnToMenu() {
         System.out.println(RETURN);
     }
 }

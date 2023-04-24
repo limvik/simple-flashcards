@@ -34,7 +34,7 @@ public class SelectedUserView implements View{
 
 	@Override
 	public void printError() {
-		System.out.println(ERROR);
+		System.out.print(ERROR);
 	}
         
 }
