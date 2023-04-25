@@ -11,6 +11,7 @@ import com.limvik.enums.DeckMenu;
 import com.limvik.enums.UserMenu;
 import com.limvik.enums.UserSelectionMenu;
 import com.limvik.view.View;
+import com.limvik.view.card.CreateCardView;
 import com.limvik.view.deck.CreateDeckView;
 import com.limvik.view.deck.DeckMenuView;
 import com.limvik.view.deck.DeleteDeckView;
@@ -205,31 +206,53 @@ public class Board {
 
             // 보관함 목록 및 보관함 별 학습 대상 카드 갯수 시현하기
             DeckMenu deckMenu = (DeckMenu) InputController.getMenuInput(view, DeckMenu.values());
+            int currentDeckId = getCurrentDeckId(ancestry, delimeter);
             switch (deckMenu.getName()) {
                 case DeckMenu.BEFORE:
+                    // 이전 메뉴로 돌아가기
                     if (ancestry.equals("0" + delimeter)) {
+                        // 최상위 메뉴일 경우 사용자 메뉴로 이동
                         decks = null;
                         return decks;
                     } else {
+                        // 상위 보관함으로 이동
                         ancestry = getParentDeckAncestry(ancestry, delimeter);
                     }
                     break;
                 case DeckMenu.START:
+                    // 현재 보관함과 하위 보관함이 보유한 카드 학습 시작
+                    decks.add(deckDAO.getDeckById(currentDeckId));
                     return decks;
                 case DeckMenu.NEW_CARD:
-                    
+                    // 신규 카드 제작
+                    view = new CreateCardView();
+                    initializeMenu(view);
+                    String front = ((CreateCardView) view).getFront();
+                    String back = ((CreateCardView) view).getBack();
+                    Card newCard = new Card(front, back);
+                    view.printLoading();
+                    View.pause(1);
+                    if (newCard.writeContents(user.getId(), currentDeckId)) {
+                        ((CreateCardView) view).printSuccess();
+                    } else {
+                        ((CreateCardView) view).printSaveError();
+                        View.pause(2);
+                    }
                     break;
                 case DeckMenu.NEW_DECK:
+                    // 신규 보관함 생성
                     view = new CreateDeckView();
-                    initializeCreateDeckMenu(view);
+                    initializeMenu(view);
                     createDeck(view, deckDAO, user, ancestry);
                     break;
                 case DeckMenu.EDIT_DECKNAME:
+                    // 현재 보관함 이름 수정
                     view = new UpdateDeckView();
-                    initializeUpdateDeckMenu(view);
-                    updateDeck(view, deckDAO, user, getCurrentDeckId(ancestry, delimeter));
+                    initializeMenu(view);
+                    updateDeck(view, deckDAO, user, currentDeckId);
                     break;
                 case DeckMenu.DELETE_DECK:
+                    // 현재 보관함 삭제
                     view = new DeleteDeckView();
                     initializeDeleteDeckMenu(view, deckDAO, ancestry, delimeter);
                     ancestry = chooseDeleteDeck(view, deckDAO, ancestry, delimeter);
@@ -267,20 +290,11 @@ public class Board {
 
     }
 
-    private void initializeCreateDeckMenu(View view) {
+    private void initializeMenu(View view) {
         
         // 이전 화면 메시지 지우기
         View.clearScreen();
-        // 보관함 생성 메뉴 출력하기
-        printMenu(view);
-
-    }
-
-    private void initializeUpdateDeckMenu(View view) {
-        
-        // 이전 화면 메시지 지우기
-        View.clearScreen();
-        // 보관함 생성 메뉴 출력하기
+        // 메뉴 출력하기
         printMenu(view);
 
     }
