@@ -63,7 +63,7 @@ public class InputController {
         
     }
 
-    public static boolean isYesOrNo(View view) {
+    public static boolean isYesOrNo (View view) {
         Scanner scanner = getInstance().getScanner();
         while (true) {
             String input = scanner.nextLine();
@@ -72,5 +72,15 @@ public class InputController {
             }
             view.printError();
         }
+    }
+
+    public static String getUserCardInput () {
+        
+        // 입력
+        Scanner scanner = getInstance().getScanner();
+
+        // 입력받은 텍스트 반환
+        return scanner.nextLine();
+
     }
 }
