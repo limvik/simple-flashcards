@@ -1,6 +1,7 @@
 package com.limvik;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.limvik.controller.InputController;
 import com.limvik.dao.DatabaseConnection;
@@ -8,9 +9,12 @@ import com.limvik.dao.UserDAO;
 import com.limvik.enums.MainMenu;
 import com.limvik.enums.SelectedUserMenu;
 import com.limvik.flashcards.Board;
+import com.limvik.flashcards.Deck;
+import com.limvik.flashcards.Planner;
 import com.limvik.flashcards.User;
 import com.limvik.view.MainView;
 import com.limvik.view.View;
+import com.limvik.view.user.DeleteUserView;
 import com.limvik.view.user.SelectedUserView;
 import com.limvik.view.user.UpdateUserView;
 
@@ -21,13 +25,13 @@ public class SimpleFlashCardsApplication
 
         // 메인 화면 출력
         View mainView = new MainView();
-        printMainMenu(mainView);
+        printMenu(mainView);
         
         // 메인 메뉴 선택
         MainMenu mainMenu = getSelectedMainMenu(mainView);
         switch (mainMenu) {
             case START:
-                // 사용자 메뉴 출력
+                // 사용자 선택 메뉴 출력
                 Board board = new Board();
                 User user = getSelectedUser(mainView, board);
                 while (true) {
@@ -35,9 +39,11 @@ public class SimpleFlashCardsApplication
                     var selectedUserMenu = getSelectedUserMenu(mainView, user);
                     switch (selectedUserMenu) {
                         case BEFORE:
+                            // 사용자 선택 메뉴로 돌아가기
                             user = getSelectedUser(mainView, board);
                             break;
                         case STUDY:
+                            List<Deck> studyDeck = board.showDecks(user, new Planner());
                             break;
                         case UPDATE:
                             View.clearScreen();
@@ -45,7 +51,7 @@ public class SimpleFlashCardsApplication
                             updateUserView.printFirstMessage();
                             updateUserView.printMenu();
 
-                            String newName = InputController.getUserNameInput();
+                            String newName = InputController.getUserTextInput();
                             // 중복 검사
                             try {
                                 var userDAO = new UserDAO(DatabaseConnection.getInstance().getConnection());
@@ -78,11 +84,11 @@ public class SimpleFlashCardsApplication
                             View.pause(1);
                             break;
                         case DELETE:
+                            View view = new DeleteUserView();
                             System.out.print("'" + user.getName() + "'");
-                            System.out.println("님의 정보를 정말 삭제하시겠습니까? 모든 보관함과 카드도 함께 삭제됩니다.");
-                            System.out.print("삭제를 원하시면 Y, 취소하려면 N을 입력 후 엔터를 눌러주세요.\n>");
+                            printMenu(view);
 
-                            boolean isDelete = InputController.isYesOrNo();
+                            boolean isDelete = InputController.isYesOrNo(view);
 
                             if (isDelete) {
                                 int deletedRow = 0;
@@ -92,15 +98,13 @@ public class SimpleFlashCardsApplication
                                     if (deletedRow == 0) throw new SQLException();
                                 } catch (SQLException e) {
                                     System.err.println(e.getMessage());
-                                    System.out.println("삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
-                                    View.pause(1);
                                     break;
                                 }
-                                System.out.println("삭제가 완료되었습니다. 사용자 메뉴로 이동합니다.");
+                                view.printLoading();
                                 View.pause(1);
                                 user = getSelectedUser(mainView, board);
                             } else {
-                                System.out.println("삭제가 취소되었습니다.");
+                                ((DeleteUserView) view).printCancelDelete();
                                 View.pause(1);
                             }
                             break;
@@ -117,7 +121,7 @@ public class SimpleFlashCardsApplication
 
     }
 
-    private static void printMainMenu(View view) {
+    private static void printMenu(View view) {
 
         // 화면 청소
         View.clearScreen();
