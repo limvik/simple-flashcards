@@ -10,6 +10,8 @@ public class DeckMenuView implements View {
     private static final String CHILD_LIST = "하위 보관함 목록";
     private static final String COLUMN_NAME = "보관함이름\t미학습 카드\t오늘의 카드";
     private static final String ERROR = "정확한 번호를 입력하세요. 예) 1\n>";
+    private static final String NO_CARDS = "현재 보관함에는 보유한 카드가 없습니다. 카드를 생성해주세요.";
+    private static final String LOADING = "학습을 시작합니다.";
 
     @Override
     public void printFirstMessage() {
@@ -18,7 +20,7 @@ public class DeckMenuView implements View {
 
     @Override
     public void printLoading() {
-        
+        System.out.println(LOADING);
     }
 
     @Override
@@ -42,6 +44,10 @@ public class DeckMenuView implements View {
     @Override
     public void printError() {
         System.out.print(ERROR);
+    }
+
+    public void printNoCards() {
+        System.out.println(NO_CARDS);
     }
     
 }

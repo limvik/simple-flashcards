@@ -50,4 +50,22 @@ public class CardDAO {
         return rowCount;
 
     }
+
+    public int getDeckCardCount(int deckId) {
+
+        // 보관함 내의 카드의 갯수를 얻기 위한 sql
+        String sql = "SELECT count(*) AS count FROM Cards WHERE deck_id = ?";
+        // SQL 실행 및 데이터 저장
+        int count = 0;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, deckId);
+            ResultSet resultSet = statement.executeQuery();
+            count = resultSet.getInt("count");
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+
+    }
 }

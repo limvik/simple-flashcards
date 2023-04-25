@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.limvik.controller.InputController;
+import com.limvik.dao.CardDAO;
 import com.limvik.dao.DatabaseConnection;
 import com.limvik.dao.DeckDAO;
 import com.limvik.dao.UserDAO;
@@ -184,6 +185,7 @@ public class Board {
         DeckDAO deckDAO = null;
         try {
             deckDAO = new DeckDAO(DatabaseConnection.getInstance().getConnection());
+            
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.exit(0);
@@ -221,8 +223,16 @@ public class Board {
                     break;
                 case DeckMenu.START:
                     // 현재 보관함과 하위 보관함이 보유한 카드 학습 시작
-                    decks.add(deckDAO.getDeckById(currentDeckId));
-                    return decks;
+                    if (getTotalCardsInDeck(currentDeckId) == 0) {
+                        ((DeckMenuView)view).printNoCards();
+                        View.pause(2);
+                    } else {
+                        decks.add(deckDAO.getDeckById(currentDeckId));
+                        view.printLoading();
+                        View.pause(1);
+                        return decks;
+                    }
+                    break;
                 case DeckMenu.NEW_CARD:
                     // 신규 카드 제작
                     view = new CreateCardView();
@@ -281,13 +291,26 @@ public class Board {
         }
         
         // 메뉴 출력하기
+        int currentDeckId = getCurrentDeckId(ancestry, delimeter);
         System.out.print("'" + user.getName() + "'님의 ");
         if (!ancestry.equals("0" + delimeter)) {
-            Deck deck = deckDAO.getDeckById(getCurrentDeckId(ancestry, delimeter));
-            System.out.print("'" + deck.getName() + "'"); 
+            Deck deck = deckDAO.getDeckById(currentDeckId);
+            System.out.print("'" + deck.getName() + "(" + getTotalCardsInDeck(currentDeckId) + "개의 카드 보관 중)"+ "'"); 
         }
         printMenu(view);
 
+    }
+
+    private int getTotalCardsInDeck(int deckId) {
+
+        try {
+            var cardDAO = new CardDAO(DatabaseConnection.getInstance().getConnection());
+            return cardDAO.getDeckCardCount(deckId);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return 0;
     }
 
     private void initializeMenu(View view) {
