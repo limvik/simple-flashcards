@@ -1,0 +1,39 @@
+package com.limvik.view.deck;
+
+import com.limvik.view.View;
+
+public class DeleteDeckView implements View{
+
+    private static final String WELCOME = "보관함을 삭제합니다.";
+    private static final String DELETE = "정말 삭제하시겠습니까? 하위 보관함과 보관함에 포함된 카드까지 모두 삭제됩니다.";
+    private static final String MENU_GUIDE = "삭제를 원하시면 Y, 취소하려면 N을 입력 후 엔터를 눌러주세요.\n>";
+    private static final String ERROR = "잘못된 입력입니다. Y 또는 N을 입력해주세요.\n>";
+    private static final String CANCEL = "삭제가 취소되었습니다. 이전 메뉴로 돌아갑니다.";
+    private static final String LOADING = "삭제가 완료되었습니다. 이전 메뉴로 이동합니다.";
+
+    @Override
+    public void printFirstMessage() {
+        System.out.println(WELCOME);
+    }
+
+    @Override
+    public void printLoading() {
+        System.out.println(LOADING);
+    }
+
+    @Override
+    public void printMenu() {
+        System.out.println(DELETE);
+        System.out.print(MENU_GUIDE);
+    }
+
+    @Override
+    public void printError() {
+        System.out.println(ERROR);
+    }
+
+    public void printCancelDelete() {
+        System.out.println(CANCEL);
+    }
+    
+}
