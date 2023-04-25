@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.limvik.flashcards.Card;
+import com.limvik.flashcards.Deck;
 
 public class CardDAO {
     private Connection connection;
@@ -32,7 +35,7 @@ public class CardDAO {
     public int insertCard(int userId, int deckId, Card card) {
 
         // 신규 사용자 추가를 위한 SQL
-        String sql = "INSERT INTO Cards(id, user_id, deck_id, front, back, card_type)" +
+        String sql = "INSERT INTO Cards(id, user_id, deck_id, front, back, card_type) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
         int rowCount = 0;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -67,5 +70,34 @@ public class CardDAO {
         }
         return count;
 
+    }
+
+    public List<Card> getCards(List<Deck> decks) {
+        List<Card> cards = new ArrayList<>();
+
+        // 보관함 내의 카드를 얻기 위한 sql
+        String sql = "SELECT id, user_id, deck_id, front, back, memo, card_type FROM Cards " +
+                     "WHERE deck_id IN (?";
+        if (decks.size() > 1) sql += ", ?".repeat(decks.size() - 1);
+        sql += ")";
+        // SQL 실행 및 데이터 저장
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 1; i <= decks.size(); i++) {
+                statement.setInt(i, decks.get(i-1).getId());
+            }
+            ResultSet resultSet = statement.executeQuery();
+            cards.add(new Card(resultSet.getInt("id"),
+                               resultSet.getInt("user_id"),
+                               resultSet.getInt("deck_id"),
+                               resultSet.getString("front"),
+                               resultSet.getString("back"),
+                               resultSet.getString("memo"),
+                               resultSet.getInt("card_type")));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cards;
     }
 }
