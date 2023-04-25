@@ -75,12 +75,8 @@ public class InputController {
     }
 
     public static String getUserCardInput () {
-        
-        // 입력
-        Scanner scanner = getInstance().getScanner();
-
         // 입력받은 텍스트 반환
-        return scanner.nextLine();
+        return getInstance().getScanner().nextLine();
 
     }
 }
