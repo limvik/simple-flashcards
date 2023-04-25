@@ -63,13 +63,14 @@ public class InputController {
         
     }
 
-    public static boolean isYesOrNo() {
+    public static boolean isYesOrNo(View view) {
         Scanner scanner = getInstance().getScanner();
         while (true) {
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("n")) {
                 return input.equalsIgnoreCase("y");
             }
+            view.printError();
         }
     }
 }
