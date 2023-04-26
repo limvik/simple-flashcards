@@ -86,13 +86,15 @@ public class CardDAO {
                 statement.setInt(i, decks.get(i-1).getId());
             }
             ResultSet resultSet = statement.executeQuery();
-            cards.add(new Card(resultSet.getInt("id"),
-                               resultSet.getInt("user_id"),
-                               resultSet.getInt("deck_id"),
-                               resultSet.getString("front"),
-                               resultSet.getString("back"),
-                               resultSet.getString("memo"),
-                               resultSet.getInt("card_type")));
+            while (resultSet.next()) {
+                cards.add(new Card(resultSet.getInt("id"),
+                                   resultSet.getInt("user_id"),
+                                   resultSet.getInt("deck_id"),
+                                   resultSet.getString("front"),
+                                   resultSet.getString("back"),
+                                   resultSet.getString("memo"),
+                                   resultSet.getInt("card_type")));
+            }
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
