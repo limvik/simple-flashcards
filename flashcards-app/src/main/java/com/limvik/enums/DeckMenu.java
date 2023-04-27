@@ -52,7 +52,7 @@ public class DeckMenu implements Menu {
         VALUES.put(EXIT, new DeckMenu(EXIT));
     }
 
-    // 선택된 메인 메뉴 유효성 검사용 정규표현식 반환
+    // 선택된 메뉴 유효성 검사용 정규표현식 반환
     @Override
     public String getMenuRegex() {
         int max = DeckMenu.values().length;
