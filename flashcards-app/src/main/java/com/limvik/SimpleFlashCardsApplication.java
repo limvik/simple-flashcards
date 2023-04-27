@@ -4,16 +4,19 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.limvik.controller.InputController;
+import com.limvik.dao.CardDAO;
 import com.limvik.dao.DatabaseConnection;
 import com.limvik.dao.UserDAO;
 import com.limvik.enums.MainMenu;
 import com.limvik.enums.SelectedUserMenu;
 import com.limvik.flashcards.Board;
+import com.limvik.flashcards.Card;
 import com.limvik.flashcards.Deck;
 import com.limvik.flashcards.Planner;
 import com.limvik.flashcards.User;
 import com.limvik.view.MainView;
 import com.limvik.view.View;
+import com.limvik.view.card.StudyCardView;
 import com.limvik.view.user.DeleteUserView;
 import com.limvik.view.user.SelectedUserView;
 import com.limvik.view.user.UpdateUserView;
@@ -44,6 +47,20 @@ public class SimpleFlashCardsApplication
                             break;
                         case STUDY:
                             List<Deck> studyDeck = board.showDecks(user, new Planner());
+                            try {
+                                var cardDAO = new CardDAO(DatabaseConnection.getInstance().getConnection());
+
+                                // 선택된 보관함과 모든 하위 보관함의 카드 불러오기
+                                List<Card> cards = cardDAO.getCards(studyDeck);
+                                Deck selectedDeck = studyDeck.get(studyDeck.size() - 1);
+
+                                // 카드 학습 세션 메뉴 출력
+                                var studyCardView = new StudyCardView(selectedDeck, cards);
+                                studyCardView.printMenu();
+                            } catch (SQLException e) {
+                                System.err.println(e.getMessage());
+                                View.pause(1);
+                            }
                             break;
                         case UPDATE:
                             View.clearScreen();

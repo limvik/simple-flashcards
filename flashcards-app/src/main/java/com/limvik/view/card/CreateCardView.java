@@ -47,7 +47,7 @@ public class CreateCardView implements View {
                 System.out.print(RESTRICT);
                 front = InputController.getUserCardInput();
             }
-            System.out.println(MENU_GUIDE);
+            System.out.print(MENU_GUIDE);
         } while (!InputController.isYesOrNo(this));
         
         if (front.length() > 0) {
@@ -60,7 +60,7 @@ public class CreateCardView implements View {
                     System.out.print(RESTRICT);
                     back = InputController.getUserCardInput();
                 }
-                System.out.println(MENU_GUIDE);
+                System.out.print(MENU_GUIDE);
             } while (!InputController.isYesOrNo(this));
 
         }
