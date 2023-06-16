@@ -18,11 +18,19 @@ class Flashcard {
         return id;
     }
 
-    public String getFrontFace() {
+    /**
+     * 플래시카드 앞면에 저장되어 있는 내용을 반환합니다.
+     * @return 플래시카드 앞면에 저장되어 있는 내용 반환
+     */
+    public String getFrontContents() {
         return frontFace.getContents();
     }
 
-    public String getBackFace() {
+    /**
+     * 플래시카드 뒷면에 저장되어 있는 내용을 반환합니다.
+     * @return 플래시카드 뒷면에 저장되어 있는 내용 반환
+     */
+    public String getBackContents() {
         return backFace.getContents();
     }
 }

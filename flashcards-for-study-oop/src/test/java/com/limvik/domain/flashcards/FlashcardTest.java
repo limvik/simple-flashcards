@@ -21,7 +21,7 @@ public class FlashcardTest {
 
         assertAll("정상적으로 객체가 생성되지 않았습니다.",
         () -> assertEquals(testId, flashcard.getId()),
-        () -> assertEquals(testFront, flashcard.getFrontFace()),
-        () -> assertEquals(testBack, flashcard.getBackFace()));
+        () -> assertEquals(testFront, flashcard.getFrontContents()),
+        () -> assertEquals(testBack, flashcard.getBackContents()));
     }
 }
